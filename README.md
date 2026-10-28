@@ -11,6 +11,7 @@
 
 #### プロジェクト関連リンク
 * [blog_frontend](https://github.com/ThisLms/blog_frontend)
+* [Notion](https://app.notion.com/p/40726ff9c2f880758ee0ffb40bca3a41?source=copy_link)
 
 ## 2. 技術スタック
 
