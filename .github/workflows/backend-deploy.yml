@@ -1,0 +1,48 @@
+name: Build Backend Image
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend-deploy.yml"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: backend-image
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 소스 코드 가져오기
+        uses: actions/checkout@v4
+
+      - name: GHCR 로그인
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "$GHCR_TOKEN" | docker login ghcr.io \
+            --username "${{ github.actor }}" \
+            --password-stdin
+
+      - name: Docker 이미지 만들기
+        run: |
+          docker build \
+            --label "org.opencontainers.image.source=https://github.com/${{ github.repository }}" \
+            --tag ghcr.io/thislms/moonlog-backend:latest \
+            --tag ghcr.io/thislms/moonlog-backend:${{ github.sha }} \
+            ./backend
+
+      - name: GHCR에 업로드
+        run: |
+          docker push ghcr.io/thislms/moonlog-backend:latest
+          docker push ghcr.io/thislms/moonlog-backend:${{ github.sha }}
