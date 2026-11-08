@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoonLog</title>
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+
+    <!-- 공통 헤더 -->
+    <header id="header"></header>
+
+    <div class="layout">
+
+        <!-- 공통 사이드 메뉴 -->
+        <aside id="sidebar"></aside>
+
+        <!-- 페이지별 내용 -->
+        <main>
+            <section class="intro">
+                <div id="top-title">
+                    <div>
+                        <h2>MoonLog</h2>
+                        <p>開発を通じて学び、成長を記録する場所。</p>
+                    </div>
+
+                    <form action="#" method="GET">
+                        <div id="search-bar">
+                            <input type="text" placeholder="キーワードを入力してください">
+                            <input type="submit" value="検索">
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section class="posts">
+                <h2>お知らせ</h2>
+                <article>
+                    <span class="post-author">작성자 · admin</span>
+                    <h3><a href="#">태그 추가 건의 사항</a></h3>
+                    <div class="post-info">
+                        <span class="tag">Announcement</span>
+                        <span>2026-11-05</span>
+                        <span>조회수 128</span>
+                    </div>
+                </article>
+
+                <h2>最近の投稿</h2>
+
+                <article>
+                    <span class="post-author">작성자 · Moon</span>
+                    <h3><a href="#">FastAPI 개발 기록</a></h3>
+                    <div class="post-info">
+                        <span class="tag">Python</span>
+                        <span class="tag">FastAPI</span>
+                        <span>2026-11-05</span>
+                        <span>조회수 128</span>
+                    </div>
+                </article>
+
+                <article>
+                    <span class="post-author">작성자 · Moon</span>
+                    <h3><a href="#">JavaScript 공부 기록</a></h3>
+                    <div class="post-info">
+                        <span class="tag">JavaScript</span>
+                        <span>2026-11-01</span>
+                        <span>조회수 56</span>
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
+
+    <!-- 공통 푸터 -->
+    <footer id="footer"></footer>
+
+    <script src="./js/components/components.js"></script>
+</body>
+</html>
