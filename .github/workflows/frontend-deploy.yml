@@ -1,0 +1,50 @@
+
+name: Deploy Frontend to GitHub Pages # 워크 플로어 이름
+
+# 이벤트 설정
+on:
+  push:
+    branches:
+      - master
+
+    paths:
+      - "frontend/**"
+      - ".github/workflows/frontend-deploy.yml"
+
+  workflow_dispatch: # GitHub Actions 화면에서 사용자가 직접 실행할 수 있도록 하는 이벤트(수동 배포도 가능)
+
+# GitHub Actions 권한
+permissions:
+  contents: read # 저장소 소스코드 읽기
+  pages: write # GitHub Pages 배포 권한
+  id-token: write # 배포 인증을 위한 OIDC 토큰 발급
+
+# 동시 배포 제어
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+# 작업 정의
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # 작업을 실행할 컴퓨터 환경
+
+    environment: # 배포 환경
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: GitHub 저장소의 소스코드를 Runner 작업 공간으로
+        uses: actions/checkout@v4
+
+      - name: GitHub Pages 배포에 필요한 설정을 준비 
+        uses: actions/configure-pages@v5
+
+      - name: ./frontend 디렉터리만 Pages 배포용 아티팩트로 업로드 
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./frontend
+
+      - name: 업로드한 아티팩트를 실제 GitHub Pages에 배포 
+        id: deployment
+        uses: actions/deploy-pages@v4
