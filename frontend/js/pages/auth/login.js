@@ -26,6 +26,26 @@ loginForm.addEventListener("submit", function (event) {
 
     // 로그인 성공 후
     loginError.hidden = true;
-    loginError.textContent = "현재 로그인 API가 연결되지 않았습니다.";
-    loginError.hidden = false;
+    const userid = document.getElementById("login-id").value
+    const userpw = document.getElementById("login-password").value
+
+    fetch("http://api.moonlog.dev/auth/login", {
+        method: "POST",
+        header:{
+            "Content-Type" : "application/json"
+        },
+        body : JSON.stringify({
+            "user_id" : userid,
+            "password" : userpw
+        })
+    })
+    .then((response) => response)
+    .then((data) => {
+        if(response.ok) {
+            location.href = "../../index.html"
+        } else {
+            loginError.textContent = "아이디 또는 비밀번호가 일치하지 않습니다.";
+            loginError.hidden = false;
+        }
+    })
 });

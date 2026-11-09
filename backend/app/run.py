@@ -1,4 +1,8 @@
 from fastapi import FastAPI
+from app.routers.auth_router import router as auth_router
+
+# app = FastAPI(...) 아래
+
 
 app = FastAPI(
     title="blog for developer API",
@@ -7,6 +11,8 @@ app = FastAPI(
         "日々の経験を共有するための掲示板APIです。"
     )
 )
+
+app.include_router(auth_router)
 
 @app.get("/")
 def test_fast_api():
