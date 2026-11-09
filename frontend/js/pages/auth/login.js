@@ -31,21 +31,31 @@ loginForm.addEventListener("submit", function (event) {
 
     fetch("https://api.moonlog.dev/auth/login", {
         method: "POST",
-        header:{
-            "Content-Type" : "application/json"
+        headers: {
+            "Content-Type": "application/json",
         },
-        body : JSON.stringify({
-            "user_id" : userid,
-            "password" : userpw
-        })
+        body: JSON.stringify({
+            user_id: userid,
+            password: userpw,
+        }),
     })
-    .then((response) => response)
-    .then((data) => {
-        if(response.ok) {
-            location.href = "../../index.html"
+    .then(async (response) => {
+        if (response.ok) {
+            location.href = "../../index.html";
         } else {
-            loginError.textContent = "아이디 또는 비밀번호가 일치하지 않습니다.";
+            console.error(response.status, await response.json());
+
+            loginError.textContent =
+                response.status === 401
+                    ? "아이디 또는 비밀번호가 일치하지 않습니다."
+                    : "로그인 요청을 처리하지 못했습니다.";
+
             loginError.hidden = false;
         }
     })
+    .catch((error) => {
+        console.error(error);
+        loginError.textContent = "서버에 연결하지 못했습니다.";
+        loginError.hidden = false;
+    });
 });
