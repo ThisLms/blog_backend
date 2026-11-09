@@ -29,7 +29,7 @@ loginForm.addEventListener("submit", function (event) {
     const userid = document.getElementById("login-id").value
     const userpw = document.getElementById("login-password").value
 
-    fetch("http://api.moonlog.dev/auth/login", {
+    fetch("https://api.moonlog.dev/auth/login", {
         method: "POST",
         header:{
             "Content-Type" : "application/json"
