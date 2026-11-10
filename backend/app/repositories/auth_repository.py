@@ -1,20 +1,25 @@
 from app.db.connection import get_connect
 
-def get_user_info(user_id):
+def repository_confirm_user(login_id):
     try:
         conn = get_connect()
         cursor = conn.cursor()
 
         sql = """
             SELECT
-                *
+                u.user_id,
+                u.hashed_password,
+                u.user_name,
+                a.authority_name
             FROM
-                users
+                users as u INNER JOIN authority as a
+            ON
+                u.authority_id = a.authority_id
             WHERE
-                login_id = %s;
+                login_id=%s;
         """
 
-        cursor.execute(sql,(user_id,))
+        cursor.execute(sql,(login_id,))
 
         result = cursor.fetchone()
 

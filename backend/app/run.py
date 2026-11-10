@@ -12,6 +12,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
+    # api.moonlog.dev와는 same origin이 아니기 때문에 아래의 allow_origins가 필요
     allow_origins=[
         "https://moonlog.dev",
         "https://www.moonlog.dev",
@@ -21,10 +22,15 @@ app.add_middleware(
     allow_headers=["Content-Type", "Authorization"],
 )
 
-app.include_router(auth_router)
+# rooter 추가
+app.include_router(
+    auth_router
+    ,prefix="/auth"
+    ,tags=["auth"]
+    )
 
 @app.get("/")
 def test_fast_api():
     return {
-        "message" : "connect API test"
+        "message" : "Success"
     }

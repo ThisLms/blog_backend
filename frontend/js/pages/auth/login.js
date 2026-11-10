@@ -1,7 +1,7 @@
 const loginForm = document.querySelector("#login-form");
 const loginError = document.querySelector("#login-error");
 
-loginForm.addEventListener("submit", function (event) {
+loginForm.addEventListener("submit",async function (event) {
     event.preventDefault();
 
     const userId = document.querySelector("#login-id").value.trim();
@@ -23,39 +23,42 @@ loginForm.addEventListener("submit", function (event) {
         loginError.hidden = false;
         return
     }
+    
+    // 입력값 검증 통과
 
-    // 로그인 성공 후
-    loginError.hidden = true;
-    const userid = document.getElementById("login-id").value
-    const userpw = document.getElementById("login-password").value
+    try {
+        // API에 요청
+        const response = await fetch("https://api.moonlog.dev/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                login_id: userId,
+                password: password,
+            }),
+        });
 
-    fetch("https://api.moonlog.dev/auth/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            user_id: userid,
-            password: userpw,
-        }),
-    })
-    .then(async (response) => {
+        const data = await response.json();
+
+        // 로그인 성공
         if (response.ok) {
-            location.href = "../../index.html";
-        } else {
-            console.error(response.status, await response.json());
-
-            loginError.textContent =
-                response.status === 401
-                    ? "아이디 또는 비밀번호가 일치하지 않습니다."
-                    : "로그인 요청을 처리하지 못했습니다.";
-
-            loginError.hidden = false;
+            sessionStorage.setItem("access_token", data.access_token); // 토큰 저장
+            location.href = "../../index.html"; // 인덱스 화면으로 이동
+            return;
         }
-    })
-    .catch((error) => {
+
+        if (response.status === 401) {
+            loginError.textContent = data.detail;
+        } else {
+            loginError.textContent = "로그인 처리 중 오류가 발생했습니다.";
+        }
+
+        loginError.hidden = false;
+
+    } catch(error) {
         console.error(error);
         loginError.textContent = "서버에 연결하지 못했습니다.";
         loginError.hidden = false;
-    });
+    }
 });
