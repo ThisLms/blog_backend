@@ -3,4 +3,4 @@ uvicorn
 PyMySQL[rsa]
 python-dotenv
 bcrypt
-jwt
+PyJWT
