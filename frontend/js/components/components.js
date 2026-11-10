@@ -3,8 +3,16 @@ fetch("/components/header.html")
     .then((response) => response.text())
     .then((data) => {
         const headerHtml = document.getElementById("header");
-
         headerHtml.innerHTML = data;
+
+        const token = sessionStorage.getItem("access_token");
+        const loginBefore = document.getElementById("login-before-user");
+        const loginAfter = document.getElementById("login-after-user");
+
+        if (token) {
+            loginBefore.hidden = true;
+            loginAfter.hidden = false;
+        }
     })
     .catch((error) => console.log(error));
 
