@@ -5,8 +5,9 @@ import hashlib
 import secrets
 import uuid
 
-from app.repositories.auth_repository import repository_confirm_user,repository_insert_refresh_token
+from app.repositories.auth_repository import repository_confirm_user,repository_insert_refresh_token,repository_delete_refresh_token
 from app.core.hashed_pw_verify import verify_password
+from app.core.hash_token import hash_refresh_token
 
 def issue_access_token(user_info):
     now = datetime.datetime.now(datetime.timezone.utc)
@@ -88,3 +89,7 @@ def service_login(login_id,password):
         ,"refresh_token" : refresh_token
         ,"flag" : True
     }
+
+def service_logout(refresh_token):
+    token_hash = hash_refresh_token(refresh_token)
+    repository_delete_refresh_token(token_hash)

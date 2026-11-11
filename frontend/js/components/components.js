@@ -5,6 +5,33 @@ fetch("/components/header.html")
         const headerHtml = document.getElementById("header");
         headerHtml.innerHTML = data;
 
+        // 로그아웃 처리
+        const logoutBtn = document.querySelector("#logout-button");
+
+        logoutBtn.addEventListener("click", async () => {
+            logoutBtn.disabled = true;
+
+            try {
+                const response = await fetch("https://api.moonlog.dev/auth/logout", {
+                    method : "POST"
+                    ,credentials : "include"
+                })
+
+                // ログアウトに失敗した際
+                if(!response.ok) {
+                    throw new Error(`ログアウトに失敗(${response.status})`);
+                }
+
+                // ログアウトに成功した際
+                sessionStorage.removeItem("access_token");
+                location.href = "/index.html";
+            } catch(error) {
+                console.error(error);
+                alert("ログアウトに失敗しました。もう一度試してください。");
+                logoutBtn.disabled = false;
+            }
+        });
+
         const token = sessionStorage.getItem("access_token");
         const loginBefore = document.getElementById("login-before-user");
         const loginAfter = document.getElementById("login-after-user");
@@ -15,11 +42,6 @@ fetch("/components/header.html")
         }
     })
     .catch((error) => console.log(error));
-
-// 로그아웃 버튼 클릭시
-document.getElementById("logout-button").addEventListener("click",(e) => {
-    sessionStorage.removeItem("access_token");
-});
 
 // 사이드바 삽입
 fetch("/components/sidebar.html")

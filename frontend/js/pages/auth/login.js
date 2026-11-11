@@ -1,5 +1,6 @@
 const loginForm = document.querySelector("#login-form");
 const loginError = document.querySelector("#login-error");
+const logoutBtn = document.querySelector("#logout-button")
 
 loginForm.addEventListener("submit",async function (event) {
     event.preventDefault();
@@ -30,7 +31,7 @@ loginForm.addEventListener("submit",async function (event) {
         // API에 요청
         const response = await fetch("https://api.moonlog.dev/auth/login", {
             method: "POST",
-            credentials: "include",
+            credentials: "include", // 리프레시 토큰 저장을 위해서 필요
             headers: {
                 "Content-Type": "application/json",
             },

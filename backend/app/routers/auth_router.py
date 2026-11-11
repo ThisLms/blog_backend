@@ -1,7 +1,7 @@
 from fastapi import APIRouter,HTTPException,Response,Cookie
 
 from app.schemas.login import LoginRequest
-from app.services.auth_service import service_login
+from app.services.auth_service import service_login,service_logout
 
 router = APIRouter()
 
@@ -40,3 +40,21 @@ def router_login(data: LoginRequest, response: Response):
                 status_code=401,
                 detail="ID・パスワードが一致しないです。"
             )
+
+# 프론트 앤드에서 자동으로 리프레시 토큰을 백엔드로 보냄
+@router.post("/logout")
+def router_logout(refresh_token: str | None = Cookie(default=None)):
+    if refresh_token is not None:
+        service_logout(refresh_token)
+
+    # HttpOnly의 리프레시 코인 제거
+    response = Response(status_code=204)
+
+    response.delete_cookie(
+        key="refresh_token"
+        ,httponly=True
+        ,secure=True
+        ,samesite="lax"
+    )
+
+    return response

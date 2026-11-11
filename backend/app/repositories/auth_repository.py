@@ -78,3 +78,39 @@ def repository_insert_refresh_token(token,conn = None):
 
         if owns_connection and conn is not None:
             conn.close()
+
+
+def repository_delete_refresh_token(token_hash,conn = None):
+    # 초기화
+    owns_connection = conn is None
+    cursor = None
+
+    try:
+        if owns_connection:
+            conn = get_connect()
+
+        cursor = conn.cursor()
+
+        sql = """
+            DELETE FROM
+                refresh_tokens
+            WHERE
+                token_hash = %s;
+        """
+
+        cursor.execute(sql,(token_hash,))
+        
+        if owns_connection:
+            conn.commit()
+    except Exception:
+        if owns_connection and conn is not None:
+            conn.rollback()
+
+        logger.exception("Fail")
+        raise
+    finally:
+        if cursor is not None:
+            cursor.close()
+
+        if owns_connection and conn is not None:
+            conn.close()
