@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会員登録 - MoonLog</title>
+    <link rel="stylesheet" href="../../css/index.css">
+    <link rel="stylesheet" href="../../css/pages/auth/signup.css">
+</head>
+<body>
+    <header id="header"></header>
+
+    <div class="layout">
+        <aside id="sidebar"></aside>
+
+        <main class="signup-page">
+            <section class="signup-card" aria-labelledby="signup-title">
+                <h2 id="signup-title">会員登録</h2>
+
+                <form id="signup-form" method="post">
+                    <div class="signup-field">
+                        <label for="signup-login-id">ログインID</label>
+                        <input
+                            id="signup-login-id"
+                            name="login_id"
+                            type="text"
+                            autocomplete="username"
+                            maxlength="20"
+                            required
+                        >
+                    </div>
+
+                    <div class="signup-field">
+                        <label for="signup-user-name">表示名</label>
+                        <input
+                            id="signup-user-name"
+                            name="user_name"
+                            type="text"
+                            autocomplete="nickname"
+                            required
+                        >
+                    </div>
+
+                    <div class="signup-field">
+                        <label for="signup-password">パスワード</label>
+                        <input
+                            id="signup-password"
+                            name="password"
+                            type="password"
+                            autocomplete="new-password"
+                            minlength="6"
+                            maxlength="15"
+                            aria-describedby="signup-password-hint"
+                            required
+                        >
+                        <p id="signup-password-hint">6〜15文字で入力してください。</p>
+                    </div>
+
+                    <button type="submit" disabled>登録する</button>
+                </form>
+
+                <p class="signup-login-link">
+                    アカウントをお持ちの方は <a href="./login.html">ログイン</a>
+                </p>
+            </section>
+        </main>
+    </div>
+
+    <footer id="footer"></footer>
+    <script src="../../js/components/components.js" defer></script>
+</body>
+</html>
