@@ -6,8 +6,9 @@
 }
 
 .signup-card {
+    box-sizing: border-box;
     width: 100%;
-    max-width: 420px;
+    max-width: 620px;
     padding: clamp(20px, 5vw, 35px);
     background-color: var(--panel);
     border: 1px solid var(--line);
@@ -29,10 +30,13 @@
     font-size: 14px;
 }
 
-.signup-field input {
+.signup-field input,
+.signup-field select,
+.signup-field textarea {
     box-sizing: border-box;
     width: 100%;
     padding: 12px;
+    color-scheme: dark;
     background-color: var(--bg);
     color: var(--text);
     border: 1px solid var(--line);
@@ -40,7 +44,14 @@
     font: inherit;
 }
 
+.signup-field textarea {
+    display: block;
+    resize: vertical;
+}
+
 .signup-field input:focus-visible,
+.signup-field select:focus-visible,
+.signup-field textarea:focus-visible,
 #signup-form button:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;

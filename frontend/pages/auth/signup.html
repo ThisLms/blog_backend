@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="../../css/index.css">
     <link rel="stylesheet" href="../../css/pages/auth/signup.css">
 </head>
+
 <body>
     <header id="header"></header>
 
@@ -20,40 +22,46 @@
                 <form id="signup-form" method="post">
                     <div class="signup-field">
                         <label for="signup-login-id">ログインID</label>
-                        <input
-                            id="signup-login-id"
-                            name="login_id"
-                            type="text"
-                            autocomplete="username"
-                            maxlength="20"
-                            required
-                        >
+                        <input id="signup-login-id" name="login_id" type="text" autocomplete="username" maxlength="20"
+                            required>
                     </div>
 
                     <div class="signup-field">
                         <label for="signup-user-name">表示名</label>
-                        <input
-                            id="signup-user-name"
-                            name="user_name"
-                            type="text"
-                            autocomplete="nickname"
-                            required
-                        >
+                        <input id="signup-user-name" name="user_name" type="text" autocomplete="nickname" maxlength="50"
+                            required>
+                    </div>
+
+                    <div class="signup-field">
+                        <label for="signup-email">メールアドレス</label>
+                        <input id="signup-email" name="email" type="email" autocomplete="email" maxlength="255"
+                            required>
                     </div>
 
                     <div class="signup-field">
                         <label for="signup-password">パスワード</label>
-                        <input
-                            id="signup-password"
-                            name="password"
-                            type="password"
-                            autocomplete="new-password"
-                            minlength="6"
-                            maxlength="15"
-                            aria-describedby="signup-password-hint"
-                            required
-                        >
+                        <input id="signup-password" name="password" type="password" autocomplete="new-password"
+                            minlength="6" maxlength="15" aria-describedby="signup-password-hint" required>
                         <p id="signup-password-hint">6〜15文字で入力してください。</p>
+                    </div>
+
+                    <div class="signup-field">
+                        <label for="signup-gender">性別（任意）</label>
+                        <select id="signup-gender" name="gender">
+                            <option value="" selected>未選択</option>
+                            <option value="1">男性</option>
+                            <option value="2">女性</option>
+                        </select>
+                    </div>
+
+                    <div class="signup-field">
+                        <label for="signup-birthday">生年月日（任意）</label>
+                        <input id="signup-birthday" name="birthday" type="date" autocomplete="bday">
+                    </div>
+
+                    <div class="signup-field">
+                        <label for="signup-introduction">自己紹介（任意）</label>
+                        <textarea id="signup-introduction" name="introduction" rows="4"></textarea>
                     </div>
 
                     <button type="submit" disabled>登録する</button>
@@ -69,4 +77,5 @@
     <footer id="footer"></footer>
     <script src="../../js/components/components.js" defer></script>
 </body>
+
 </html>
