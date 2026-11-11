@@ -30,6 +30,7 @@ loginForm.addEventListener("submit",async function (event) {
         // API에 요청
         const response = await fetch("https://api.moonlog.dev/auth/login", {
             method: "POST",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json",
             },

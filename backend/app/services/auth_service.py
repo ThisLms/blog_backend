@@ -1,8 +1,11 @@
 import os
 import jwt
 import datetime
+import hashlib
+import secrets
+import uuid
 
-from app.repositories.auth_repository import repository_confirm_user
+from app.repositories.auth_repository import repository_confirm_user,repository_insert_refresh_token
 from app.core.hashed_pw_verify import verify_password
 
 def issue_access_token(user_info):
@@ -21,6 +24,31 @@ def issue_access_token(user_info):
     )
 
     return access_token
+
+def issue_refresh_token(user_info):
+    now = datetime.datetime.now(datetime.timezone.utc)
+
+    refresh_token = secrets.token_urlsafe(32)
+
+    token_hash = hashlib.sha256(
+        refresh_token.encode("utf-8")
+    ).hexdigest()
+
+    # 리프레시 토큰은 2주간 보관
+    expires_at = (
+        now + datetime.timedelta(days=14)
+    )
+
+    token = {
+        "user_id" : user_info["user_id"]
+        ,"token_hash" : token_hash
+        ,"family_id" : str(uuid.uuid4())
+        ,"expires_at" : expires_at.replace(tzinfo=None)
+    }
+
+    # 데이터 베이스에 저장
+    repository_insert_refresh_token(token)
+    return refresh_token
 
 def service_login(login_id,password):
 
@@ -48,11 +76,15 @@ def service_login(login_id,password):
         }
 
     # 모든 인증을 통과한 후에는 토큰 생성
+    ## 1. access token
     access_token = issue_access_token(user_info) # access_token
+    ## 2. refresh token
+    refresh_token = issue_refresh_token(user_info) # refresh_token
 
     # 로그인 성공 - 토큰 및 정보 반환 
     return {
         "message" : "Login Success"
         ,"access_token" : access_token
+        ,"refresh_token" : refresh_token
         ,"flag" : True
     }

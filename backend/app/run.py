@@ -17,7 +17,7 @@ app.add_middleware(
         "https://moonlog.dev",
         "https://www.moonlog.dev",
     ],
-    allow_credentials=False,
+    allow_credentials=True,
     allow_methods=["GET", "POST"],
     allow_headers=["Content-Type", "Authorization"],
 )

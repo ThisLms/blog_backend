@@ -16,6 +16,11 @@ fetch("/components/header.html")
     })
     .catch((error) => console.log(error));
 
+// 로그아웃 버튼 클릭시
+document.getElementById("logout-button").addEventListener("click",(e) => {
+    sessionStorage.removeItem("access_token");
+});
+
 // 사이드바 삽입
 fetch("/components/sidebar.html")
     .then((response) => response.text())
