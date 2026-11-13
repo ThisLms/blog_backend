@@ -70,7 +70,7 @@ siginupForm.addEventListener("submit", async (e) => {
     // 入力に問題がない場合、apiにその値を送信する
     
     try {
-        const response = await fetch("https://api.moonlog.dev/users",{
+        const response = await fetch("https://api.moonlog.dev/users/",{
             method : "POST",
             headers : {
                 "Content-Type": "application/json",
