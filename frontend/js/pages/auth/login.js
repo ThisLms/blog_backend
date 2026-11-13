@@ -13,14 +13,14 @@ loginForm.addEventListener("submit",async function (event) {
 
     // 아이디나 비밀번호가 입력이 안 된 경우
     if (!userId || !password) {
-        loginError.textContent = "아이디와 비밀번호를 입력해 주세요.";
+        loginError.textContent = "ID又はパスワードを入力してください。";
         loginError.hidden = false;
         return;
     }
 
     // 입력 받은 비밀번호의 길이가 설정된 값과 다른 경우
     if(password.length < 6 || password.length > 15) {
-        loginError.textContent = "비밀번호는 6 자리이상 15 이하입니다."
+        loginError.textContent = "パスワードは６桁以上１５桁以下で入力してください。"
         loginError.hidden = false;
         return
     }
@@ -53,14 +53,14 @@ loginForm.addEventListener("submit",async function (event) {
         if (response.status === 401) {
             loginError.textContent = data.detail;
         } else {
-            loginError.textContent = "로그인 처리 중 오류가 발생했습니다.";
+            loginError.textContent = "ログイン処理中エラーが発生しました。";
         }
 
         loginError.hidden = false;
 
     } catch(error) {
         console.error(error);
-        loginError.textContent = "서버에 연결하지 못했습니다.";
+        loginError.textContent = "サーバーに接続できませんでした。";
         loginError.hidden = false;
     }
 });

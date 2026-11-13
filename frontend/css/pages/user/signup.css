@@ -84,6 +84,16 @@
     cursor: not-allowed;
 }
 
+.siginup-field {
+    text-align: center;
+}
+
+#siginup-error {
+    margin: 0 0 15px;
+    color: #ff9d9d;
+    font-size: 13px;
+}
+
 .signup-login-link {
     margin: 22px 0 0;
     color: var(--muted);

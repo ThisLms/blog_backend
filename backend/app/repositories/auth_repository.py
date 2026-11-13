@@ -102,11 +102,11 @@ def repository_delete_refresh_token(token_hash,conn = None):
         
         if owns_connection:
             conn.commit()
-    except Exception:
+    except Exception as e:
         if owns_connection and conn is not None:
             conn.rollback()
 
-        logger.exception("Fail")
+        logger.exception(e)
         raise
     finally:
         if cursor is not None:

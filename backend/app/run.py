@@ -1,6 +1,8 @@
 from fastapi import FastAPI
-from app.routers.auth_router import router as auth_router
 from fastapi.middleware.cors import CORSMiddleware
+
+from app.routers.auth_router import router as auth_router
+from app.routers.user_router import router as user_rouetr
 
 app = FastAPI(
     title="blog for developer API",
@@ -28,6 +30,12 @@ app.include_router(
     ,prefix="/auth"
     ,tags=["auth"]
     )
+
+app.include_router(
+    user_rouetr
+    ,prefix="/users"
+    ,tags=["user"]
+)
 
 @app.get("/")
 def test_fast_api():
