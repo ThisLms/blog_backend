@@ -23,7 +23,7 @@ def service_signup(data):
     gender = int(data.gender) if data.gender else None
 
     try:
-        birthday = date.fromisocalendar(data.birthday) if data.birthday else None
+        birthday = date.fromisoformat(data.birthday) if data.birthday else None
     except ValueError:
         return {
             "error_code" : "E016" # E016入力形式が不正
