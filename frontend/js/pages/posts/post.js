@@ -10,6 +10,8 @@ async function initPostPage() {
     const postWriteError = document.querySelector('#post-write-error');
     const postWriteClear = document.querySelector('#post-write-clear');
 
+    postWriteForm.hidden = false;
+
     function showPostWriteError(message) {
         postWriteError.textContent = message;
         postWriteError.hidden = !message;
