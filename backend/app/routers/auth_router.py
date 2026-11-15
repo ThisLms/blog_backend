@@ -1,7 +1,9 @@
-from fastapi import APIRouter,HTTPException,Response,Cookie
+import datetime
+from fastapi import APIRouter,HTTPException,Response,Cookie,Header
 
 from app.schemas.login import LoginRequest
-from app.services.auth_service import service_login,service_logout
+from app.config.exceptions import InvalidRefreshToken
+from app.services.auth_service import service_login,service_logout,service_verify,service_refresh_token
 
 router = APIRouter()
 
@@ -46,7 +48,7 @@ def router_login(data: LoginRequest, response: Response):
 def router_logout(refresh_token: str | None = Cookie(default=None)):
     if refresh_token is not None:
         service_logout(refresh_token)
-
+        
     # HttpOnly의 리프레시 코인 제거
     response = Response(status_code=204)
 
@@ -58,3 +60,70 @@ def router_logout(refresh_token: str | None = Cookie(default=None)):
     )
 
     return response
+
+# 認証・認可に関する
+@router.get("/me")
+def router_authorization(authorization : str | None = Header(default=None)):
+    result = service_verify(authorization)
+
+    if result["flag"] == False:
+        if result["status"] == "expire": # refresh token 再発行
+            raise HTTPException (
+                status_code=401
+                ,detail=result["status"]
+            )
+        if result["status"] == "invalid" : # ログイン画面に遷移する
+            raise HTTPException (
+                status_code=401
+                ,detail=result["status"]
+            )
+        if result["status"] == "not" : # ログイン画面に遷移する
+            raise HTTPException (
+                status_code=401
+                ,detail=result["status"]
+            )
+
+@router.post("/refresh")
+def router_refresh_token(response: Response, refresh_token: str | None = Cookie(default=None)):
+    try:
+        result = service_refresh_token(refresh_token)
+    except InvalidRefreshToken as e:
+        raise HTTPException (
+            status_code=401
+            ,detail=str(e)
+        ) from e
+
+    if result["flag"] == False:
+        raise HTTPException (
+            status_code=401
+            ,detail="refresh tokenが存在しないです。"
+        )
+
+    expires_at = result["expires_at"].replace(
+        tzinfo=datetime.timezone.utc
+    )
+
+    # 残りの時間算出 14 - 最終日
+    remaining_seconds = max(
+        0,
+        int(
+            (
+                expires_at
+                - datetime.datetime.now(datetime.timezone.utc)
+            ).total_seconds()
+        ),
+    )
+
+    response.set_cookie(
+        key="refresh_token",
+        value=result["refresh_token"],
+        httponly=True,
+        secure=True,
+        samesite="lax",
+        max_age=remaining_seconds
+    )
+
+    return {
+        "access_token": result["access_token"],
+        "token_type": "bearer",
+    }
