@@ -23,7 +23,8 @@ fetch("/components/header.html")
                 }
 
                 // ログアウトに成功した際
-                sessionStorage.removeItem("access_token");
+                sessionStorage.removeItem("access_token"); // 토큰 삭제
+                sessionStorage.removeItem("user_info"); // 권한 정보 삭제
                 location.href = "/index.html";
             } catch(error) {
                 console.error(error);
@@ -35,10 +36,19 @@ fetch("/components/header.html")
         const token = sessionStorage.getItem("access_token");
         const loginBefore = document.getElementById("login-before-user");
         const loginAfter = document.getElementById("login-after-user");
+        const userName = document.getElementById("user-name");
 
         if (token) {
             loginBefore.hidden = true;
             loginAfter.hidden = false;
+
+            const storedUserInfo = sessionStorage.getItem("user_info");
+            const userInfo = storedUserInfo ? JSON.parse(storedUserInfo) : null;
+
+            if (userInfo?.user_name) {
+                userName.textContent = `こんにちは、${userInfo.user_name}さん`;
+                userName.hidden = false;
+            }
         }
     })
     .catch((error) => console.log(error));

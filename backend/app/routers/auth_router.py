@@ -33,6 +33,10 @@ def router_login(data: LoginRequest, response: Response):
         return {
             "access_token" : result["access_token"]
             ,"token_type" : "bearer"
+            ,"user_info" : {
+                "user_name" : result["user_info"]["user_name"]
+                ,"authority_name" : result["user_info"]["authority_name"]
+            }
             ,"expires_in" : 900 # 15 분을 초로 변환 
         }
     # 인증에 실패했을 때
@@ -124,6 +128,10 @@ def router_refresh_token(response: Response, refresh_token: str | None = Cookie(
     )
 
     return {
-        "access_token": result["access_token"],
-        "token_type": "bearer",
+        "access_token": result["access_token"]
+        ,"user_info" : {
+            "user_name" : result["user_info"]["user_name"]
+            ,"authority_name" : result["user_info"]["authority_name"]
+        }
+        ,"token_type": "bearer"
     }

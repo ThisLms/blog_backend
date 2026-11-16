@@ -1,6 +1,7 @@
 'use strict';
 
 async function initPostPage() {
+    // false - ログインしていない場合はログインページに遷移される
     if (!(await requireAuth())) return;
 
     const postWriteForm = document.querySelector('#post-write-form');
@@ -147,8 +148,8 @@ async function initPostPage() {
             return;
         }
 
-        if (tags.some((tag) => [...tag].length > 50)) {
-            showFieldError(postWriteTags, '各タグは50文字以内で入力してください。');
+        if (tags.some((tag) => [...tag].length > 10)) {
+            showFieldError(postWriteTags, '各タグは10文字以内で入力してください。');
             return;
         }
 

@@ -46,6 +46,7 @@ loginForm.addEventListener("submit",async function (event) {
         // 로그인 성공
         if (response.ok) {
             sessionStorage.setItem("access_token", data.access_token); // 토큰 저장
+            sessionStorage.setItem("user_info", JSON.stringify(data.user_info)); // 유저 이름 및 권한 정보 저장
             location.href = "../../index.html"; // 인덱스 화면으로 이동
             return;
         }

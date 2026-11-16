@@ -41,6 +41,7 @@ async function requireAuth() {
             }
 
             sessionStorage.setItem("access_token", data_refresh.access_token);
+            sessionStorage.setItem("user_info", JSON.stringify(data_refresh.user_info));
             return true
         }
 
@@ -53,6 +54,7 @@ async function requireAuth() {
     }
 
     sessionStorage.removeItem("access_token");
+    sessionStorage.removeItem("user_info"); // 권한 정보 삭제
     location.href = "/pages/auth/login.html";
     return false;
 }

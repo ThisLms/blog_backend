@@ -89,6 +89,10 @@ def service_login(login_id,password):
         "message" : "Login Success"
         ,"access_token" : access_token
         ,"refresh_token" : refresh_token
+        ,"user_info" : {
+            "user_name" : user_info["user_name"]
+            ,"authority_name" : user_info["authority_name"]
+        }
         ,"flag" : True
     }
 
@@ -204,6 +208,10 @@ def service_refresh_token(refresh_token):
             result = {
                 "access_token": access_token
                 ,"refresh_token": new_refresh_token
+                ,"user_info" : {
+                    "user_name" : user_info["user_name"]
+                    ,"authority_name" : user_info["authority_name"]
+                }
                 ,"expires_at": token_info["expires_at"]
                 ,"flag" : True
             }
