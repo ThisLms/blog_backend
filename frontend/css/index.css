@@ -71,7 +71,8 @@ header nav {
 }
 
 #login-before-user,
-#login-after-user {
+#login-after-user,
+#login-user-name {
     display: flex;
     align-items: center;
     gap: 25px;
