@@ -110,10 +110,12 @@ async function initPostPage() {
         });
     }
 
+    // indexページへ
     document.querySelector('#location-home').addEventListener('click', () => {
         location.href = '../../index.html';
     });
 
+    // 投稿内容初期化
     document.querySelector('#post-write-clear').addEventListener('click', () => {
         postWriteForm.reset();
         showPostWriteError('');
@@ -121,6 +123,7 @@ async function initPostPage() {
         postWriteTitle.focus();
     });
 
+    // 投稿
     postWriteForm.addEventListener('submit', (event) => {
         event.preventDefault();
         showPostWriteError('');

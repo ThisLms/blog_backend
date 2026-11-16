@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="../../css/index.css">
     <link rel="stylesheet" href="../../css/pages/posts/post.css">
 </head>
+
 <body>
     <header id="header"></header>
 
@@ -25,26 +27,14 @@
                 <div id="post-write-edit-fields">
                     <div class="post-write-field">
                         <label for="post-write-title">タイトル</label>
-                        <input
-                            id="post-write-title"
-                            name="title"
-                            type="text"
-                            maxlength="150"
-                            placeholder="タイトルを入力してください"
-                            required
-                        >
+                        <input id="post-write-title" name="title" type="text" maxlength="150"
+                            placeholder="タイトルを入力してください" required>
                     </div>
 
                     <div class="post-write-field">
                         <label for="post-write-tags">タグ（任意）</label>
-                        <input
-                            id="post-write-tags"
-                            name="tags"
-                            type="text"
-                            placeholder="FastAPI, JWT, MySQL"
-                            autocomplete="off"
-                            aria-describedby="post-write-tags-help"
-                        >
+                        <input id="post-write-tags" name="tags" type="text" placeholder="FastAPI, JWT, MySQL"
+                            autocomplete="off" aria-describedby="post-write-tags-help">
                         <small id="post-write-tags-help">
                             カンマで区切って入力してください。最大5個、各50文字まで。
                         </small>
@@ -52,21 +42,10 @@
                 </div>
 
                 <div class="post-write-tabs" role="tablist" aria-label="投稿編集モード">
-                    <button
-                        type="button"
-                        id="post-write-edit-tab"
-                        role="tab"
-                        aria-selected="true"
-                        aria-controls="post-write-edit-panel"
-                    >編集</button>
-                    <button
-                        type="button"
-                        id="post-write-preview-tab"
-                        role="tab"
-                        aria-selected="false"
-                        aria-controls="post-write-preview-panel"
-                        tabindex="-1"
-                    >プレビュー</button>
+                    <button type="button" id="post-write-edit-tab" role="tab" aria-selected="true"
+                        aria-controls="post-write-edit-panel">編集</button>
+                    <button type="button" id="post-write-preview-tab" role="tab" aria-selected="false"
+                        aria-controls="post-write-preview-panel" tabindex="-1">プレビュー</button>
                 </div>
 
                 <section id="post-write-edit-panel" role="tabpanel" aria-labelledby="post-write-edit-tab">
@@ -74,13 +53,8 @@
                         <label for="post-write-markdown">本文 (Markdown)</label>
                     </div>
                     <div class="post-write-editor-pane">
-                        <textarea
-                            id="post-write-markdown"
-                            name="content"
-                            spellcheck="false"
-                            placeholder="# タイトル&#10;&#10;内容を入力してください..."
-                            required
-                        ></textarea>
+                        <textarea id="post-write-markdown" name="content" spellcheck="false"
+                            placeholder="# タイトル&#10;&#10;内容を入力してください..." required></textarea>
                     </div>
                 </section>
 
@@ -88,10 +62,13 @@
                     <article class="post-write-article-preview">
                         <header class="post-write-article-header">
                             <h1 id="post-write-preview-title"></h1>
-                            <div class="post-write-article-meta">
+                            <!-- <div class="post-write-article-meta">
                                 <span id="post-write-preview-tags"></span>
-                            </div>
+                            </div> -->
                         </header>
+                        <div class="post-write-article-meta">
+                            <span id="post-write-preview-tags"></span>
+                        </div>
                         <div id="post-write-preview" class="post-write-markdown-body"></div>
                     </article>
                     <p class="post-write-preview-note">これは公開前のプレビューです。投稿はまだ保存されていません。</p>
@@ -116,4 +93,5 @@
     <script defer src="../../js/pages/api/certification.js"></script>
     <script defer src="../../js/pages/posts/post.js"></script>
 </body>
+
 </html>
