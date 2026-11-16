@@ -57,7 +57,7 @@ siginupForm.addEventListener("submit", async (e) => {
         "password" : password,
         "user_name" : user_name,
         "email" : email,
-        "gender" : gender,
+        "gender" : gender === "" ? "" : Number(gender),
         "introduction" : introduction,
         "birthday" : birthday
     };
