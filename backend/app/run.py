@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers.auth_router import router as auth_router
 from app.routers.user_router import router as user_rouetr
+from app.routers.post_router import router as post_router
 
 app = FastAPI(
     title="blog for developer API",
@@ -35,6 +36,12 @@ app.include_router(
     user_rouetr
     ,prefix="/users"
     ,tags=["user"]
+)
+
+app.include_router(
+    post_router
+    ,prefix="/posts"
+    ,tags=["posts"]
 )
 
 @app.get("/")

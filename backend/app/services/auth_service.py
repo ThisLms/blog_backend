@@ -18,7 +18,7 @@ def issue_access_token(user_info):
         "sub" : str(user_info["user_id"]) # 유저 고유 아이디
         ,"type" : "access" # 토큰의 종류
         ,"iat" : now # 토큰 발급 시간
-        ,"exp" : now + datetime.timedelta(minutes=1) # 토큰 만료 시간(15분 후)
+        ,"exp" :  user_info.get("exp", now + datetime.timedelta(minutes=1)) # 토큰 만료 시간(15분 후)
     }
     access_token = jwt.encode(
         payload

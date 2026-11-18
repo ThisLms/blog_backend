@@ -55,6 +55,9 @@ async function requireAuth() {
 
     sessionStorage.removeItem("access_token");
     sessionStorage.removeItem("user_info"); // 권한 정보 삭제
+
+    alert("ログインしてください。");
+    
     location.href = "/pages/auth/login.html";
     return false;
 }

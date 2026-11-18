@@ -1,6 +1,5 @@
 import os
 import jwt
-import hashlib
 
 # このファイルはトークンの有効・無効などを検証するための機能のみ
 def verify_token(token : str, expected_type : str):
@@ -22,10 +21,21 @@ def verify_token(token : str, expected_type : str):
                 ,"flag" : False
             }
 
+        try:
+            user_id = int(payload["sub"])
+        except (KeyError, TypeError, ValueError):
+            return {
+                "error_code": "E003"
+                ,"status": "invalid"
+                ,"flag": False
+            }
+
         return {
             "message" : "verification Success"
+            ,"user_id": user_id
             ,"flag" : True
         }
+    
     except jwt.ExpiredSignatureError:
         return {
             "error_code" : "E003"

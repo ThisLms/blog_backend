@@ -17,6 +17,7 @@ async function initPostPage() {
     const postWritePreviewTitle = document.querySelector('#post-write-preview-title');
     const postWritePreviewTags = document.querySelector('#post-write-preview-tags');
     const postWritePreview = document.querySelector('#post-write-preview');
+    const postWriteSubmit = document.querySelector('#post-write-submit');
 
     function readTags() {
         const tags = new Map();
@@ -125,8 +126,11 @@ async function initPostPage() {
     });
 
     // 投稿
-    postWriteForm.addEventListener('submit', (event) => {
+    postWriteForm.addEventListener('submit', async (event) => {
         event.preventDefault();
+
+        if (postWriteSubmit.disabled) return;
+        
         showPostWriteError('');
 
         const title = postWriteTitle.value.trim();
@@ -152,12 +156,56 @@ async function initPostPage() {
             showFieldError(postWriteTags, '各タグは10文字以内で入力してください。');
             return;
         }
-
-        const payload = { title, content, tags };
-
+        
         // ここに投稿APIへのリクエストを追加する
-        console.log('投稿データ:', payload);
-        showPostWriteError('入力内容を確認しました。投稿はまだ保存されていません。');
+        const payload = { title, content, tags };
+        const accessToken = sessionStorage.getItem("access_token");
+
+        postWriteSubmit.disabled = true;
+
+        try {
+            let response = await fetch("https://api.moonlog.dev/posts",{
+                method : "POST"
+                ,headers : {
+                    Authorization: `Bearer ${accessToken}`
+                    ,"Content-Type": "application/json"
+                }
+                ,body : JSON.stringify(payload)
+            });
+            
+            // トークンの期間切れなどで現在のトークンが使えない場合
+            // Access Tokenを再発行して、再確認する。
+            if(response.status === 401) {
+
+                // 再認証
+                if (!(await requireAuth())) return;
+
+                const newAccessToken = sessionStorage.getItem("access_token");
+
+                // 再提出
+                response = await fetch("https://api.moonlog.dev/posts", {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${newAccessToken}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload)
+                });
+            }
+
+            if(response.ok) {
+                alert("投稿が正常に登録されました。");
+                location.href = "../../index.html";
+                return;
+            }
+
+            showPostWriteError(`投稿に失敗しました (${response.status})。`);
+        } catch (error) {
+            console.error(error);
+            showPostWriteError("投稿を完了できませんでした。もう一度お試しください。");
+        } finally {
+            postWriteSubmit.disabled = false;
+        }
     });
 
     postWriteForm.hidden = false;
